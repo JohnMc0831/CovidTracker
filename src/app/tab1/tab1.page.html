@@ -14,20 +14,18 @@
   </ion-header>
   <ion-grid>
     <ion-row>
-      <ion-col size="4" class='ion-text-center'>
-        <ion-button>
-          State Data
-        </ion-button>
-      </ion-col>
-      <ion-col size="4" class='ion-text-center'>
-        <ion-button>
+      <ion-col size="6" class='ion-text-center'>
+        <ion-button (click)='selectUsData()'>
           U.S. Data
         </ion-button>
       </ion-col>
-      <ion-col size="4" class='ion-text-center'>
-        <ion-button>
-          Global Data
+      <ion-col size="6" class='ion-text-center'>
+        <ion-button (click)='selectStateData()'>
+          State Data
         </ion-button>
+        <ion-select [(ngModel)]="selectedState">
+          <ion-select-option *ngFor="let state of usStates" value="{{ state.value }}">{{ state.label }}</ion-select-option>
+        </ion-select>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -68,6 +66,15 @@
     <ion-row>
       <ion-col size='12'>
         <canvas id="usCanvas"></canvas>
+      </ion-col>
+      <ion-col size='12'>
+        <canvas id="usHistoricalCanvas"></canvas>
+      </ion-col>
+      <ion-col size='12'>
+        <canvas id="stateCanvas"></canvas>
+      </ion-col>
+      <ion-col size='12'>
+        <canvas id="stateHistoricalCanvas"></canvas>
       </ion-col>
     </ion-row>
   </ion-grid>
