@@ -1,6 +1,8 @@
 export class currentUSData {
   positive:number;
+  positivePretty: string;
   negative: number;
+  negativePretty: string;
   pending: number;
   hospitalizedCurrently: number;
   hospitalizedCumulative: number;
@@ -12,8 +14,10 @@ export class currentUSData {
   hash: string;
   lastModified: Date;
   death: number;
+  deathPretty: string;
   hospitalized: number;
   total: number;
+  totalPretty: string;
   totalTestResults: number;
   posNeg: number;
   notes: string;

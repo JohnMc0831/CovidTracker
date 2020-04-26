@@ -39,37 +39,36 @@
       <ion-col size="3" class='ion-text-center'>
         <ion-item color='danger' (click)="viewData()" class='ion-text-center'>
           <ion-label>
-            Deaths<br />{{usData.death}}
+            Deaths<br />{{usData.deathPretty}}
           </ion-label>
         </ion-item>
       </ion-col>
       <ion-col size="3" class='ion-text-center'>
         <ion-item color='warning' (click)="viewData()" class='ion-text-center'>
           <ion-label>
-            Positives<br />{{usData.positive}}
+            Positives<br />{{usData.positivePretty}}
           </ion-label>
         </ion-item>
       </ion-col>
       <ion-col size="3" class='ion-text-center'>
         <ion-item color='success' (click)="viewData()" class='ion-text-center'>
           <ion-label>
-            Negatives<br />{{usData.negative}}
+            Negatives<br />{{usData.negativePretty}}
           </ion-label>  
         </ion-item>
       </ion-col>
       <ion-col size='3'>
         <ion-item color='primary' (click)="viewData()" class='ion-text-center'>
           <ion-label>
-            Total<br />{{usData.total}}
+            Total<br />{{usData.totalPretty}}
           </ion-label>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size='12'>
-        <canvas #usCanvas></canvas>
+        <canvas id="usCanvas"></canvas>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
 </ion-content>
