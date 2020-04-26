@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import {CovidService } from '../api/covid.service';
-import { currentUSData, historicalUSData, historicalUSDataItem } from '../models/models';
+import { currentUSData, historicalUSData, historicalUSDataItem, currentStateData, currentStateDataItem, historicalStateDataItem, historicalStateData } from '../models/models';
 import { Chart } from 'chart.js';
 import * as $ from 'jquery';
 import * as numeral from 'numeral';
@@ -15,10 +15,11 @@ export class Tab1Page {
   @ViewChild('usCanvas', {static: false}) usChartRef: ElementRef;
   public usData: currentUSData = new currentUSData();
   public usHistoricalData: historicalUSDataItem[];
-  public stateData: currentStateData = new currentStateData();
-  public stateHistoricalData: stateHistoricalData = new stateHistoricalData();
+  public stateData: currentStateDataItem;
+  public stateHistoricalData: historicalStateDataItem[];
   public currentFilterName: string = "U.S. Statistics";
   public selectedState:string = "VT";
+  public view:string = "US";
   public usStates = [
     { value: 'WY', label:' Wyoming'},
     { value: 'WI', label:' Wisconsin'},
@@ -84,7 +85,7 @@ export class Tab1Page {
     this.getUsHistoricalData().then(() => 
       this.drawUsHistoricalChart()
     );
-    
+    this.view = "US";
   }
 
   getUsData() {
@@ -112,7 +113,7 @@ export class Tab1Page {
   
   drawUsChart() {
     var ctx = document.getElementById('usCanvas');
-    this.usChart = new Chart(ctx, {
+    var usChart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: ["Deaths", "Positives", "Negatives", "Total"],
@@ -235,45 +236,64 @@ export class Tab1Page {
     });
   }
   
-  /* state date */
+  selectUsData() {
+      this.getUsData().then(() => 
+      this.drawUsChart()
+    );
+
+    this.getUsHistoricalData().then(() => 
+      this.drawUsHistoricalChart()
+    );
+    // $('#usCanvas').removeClass('ion-hide');
+    // $('#usHistoricalCanvas').removeClass('ion-hide')
+    // $('#stateCanvas').addClass('ion-hide');
+    // $("#stateHistoricalCanvas").addClass('ion-hide');
+    // $('#usNumbers').removeClass('ion-hide');
+    // $('#stateNumbers').addClass('ion-hide');
+    this.currentFilterName = `U.S. Statistics`;
+    this.view = "US";
+  }
+
+  /* start date */
   selectStateData() {
     this.getStateData().then(() =>
       this.drawStateChart()
     );
+
+    this.getStateHistoricalData().then(() =>
+      this.drawStateHistoricalChart()
+    );
+
+    // $('#usCanvas').addClass('ion-hide');
+    // $('#usHistoricalCanvas').addClass('ion-hide')
+    // $('#stateCanvas').removeClass('ion-hide');
+    // $("#stateHistoricalCanvas").removeClass('ion-hide');
+    // $('#usNumbers').addClass('ion-hide');
+    // $('#stateNumbers').removeClass('ion-hide');
+    this.currentFilterName = `${this.selectedState} Statistics`;
+    this.view = "State";
   }
 
   getStateData() {
-    return this.covid.getStateData(this.selectedState).toPromise().then((result) => {
-      this.usData = result[0];
-      this.usData.deathPretty = numeral(this.usData.death).format('0,0');
-      this.usData.positivePretty = numeral(this.usData.positive).format('0,0');
-      this.usData.negativePretty = numeral(this.usData.negative).format('0,0');
-      this.usData.totalPretty = numeral(this.usData.total).format('0,0');
+    return this.covid.getStateData().toPromise().then((result:currentStateDataItem[]) => {
+      const selectedStateData = result.find(r => r.state === this.selectedState);
+      selectedStateData.deathPretty = numeral(selectedStateData.death).format('0,0');
+      selectedStateData.positivePretty = numeral(selectedStateData.positive).format('0,0');
+      selectedStateData.negativePretty = numeral(selectedStateData.negative).format('0,0');
+      selectedStateData.totalPretty = numeral(selectedStateData.total).format('0,0');
+      this.stateData = selectedStateData;
     });
   }
 
-  getStateHistoricalData() {
-    return this.covid.getUSHistoricalData().toPromise().then((result) => {
-      this.usHistoricalData = result;
-      this.usHistoricalData.forEach(item => {
-        item.deathPretty = numeral(item.death).format('0,0');
-        item.positivePretty = numeral(item.positive).format('0,0');
-        item.negativePretty = numeral(item.negative).format('0,0');
-        item.totalPretty = numeral(item.total).format('0,0');
-      });
-
-    });
-  }
-  
   drawStateChart() {
-    var ctx = document.getElementById('usCanvas');
-    this.usChart = new Chart(ctx, {
+    var ctx = document.getElementById('stateCanvas');
+    var stateChart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: ["Deaths", "Positives", "Negatives", "Total"],
         datasets: [
           {
-            data: [this.usData.death, this.usData.positive, this.usData.negative, this.usData.total],
+            data: [this.stateData.death, this.stateData.positive, this.stateData.negative, this.stateData.total],
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(255, 206, 86, 0.2)",
@@ -313,11 +333,23 @@ export class Tab1Page {
     });
   }
 
+  getStateHistoricalData() {
+    return this.covid.getStateHistoricalData(this.selectedState).toPromise().then((result:historicalStateDataItem[]) => {
+      this.stateHistoricalData = result;
+      this.stateHistoricalData.forEach(item => {
+        item.deathPretty = item.death === undefined ? '0' : numeral(item.death).format('0,0');
+        item.positivePretty = item.positive === undefined ? '0' : numeral(item.positive).format('0,0');
+        item.negativePretty = item.negative === undefined ? '0' : numeral(item.negative).format('0,0');
+        item.totalPretty = item.total === undefined ? '0' : numeral(item.total).format('0,0');
+      });
+    });
+  }
+  
   drawStateHistoricalChart() {
-    const dates:string[] = this.usHistoricalData.map(({ date }) => moment(date, "YYYYMMDD").format('MM/DD/YYYY'));
-    const deaths: number[] = this.usHistoricalData.map(({ death }) => death);
-    const positives: number[] = this.usHistoricalData.map(({ positive }) => positive);
-    const negatives: number[] = this.usHistoricalData.map(({ negative }) => negative);
+    const dates:string[] = this.stateHistoricalData.map(({ date }) => moment(date, "YYYYMMDD").format('MM/DD/YYYY'));
+    const deaths: number[] = this.stateHistoricalData.map(({ death }) => death);
+    const positives: number[] = this.stateHistoricalData.map(({ positive }) => positive);
+    const negatives: number[] = this.stateHistoricalData.map(({ negative }) => negative);
     var historicalData = {
       labels: dates,
       datasets: [{
@@ -344,7 +376,7 @@ export class Tab1Page {
         lineTension: 0
       }]
     };
-    var ctx = document.getElementById('usHistoricalCanvas');
+    var ctx = document.getElementById('stateHistoricalCanvas');
     var kitsChart = new Chart(ctx, {
       type: 'line',
       data: historicalData,

@@ -68,6 +68,7 @@ export class historicalUSData {
 export class currentStateDataItem {
   state:string;
   positive: number;
+  positivePretty: string;
   positiveScore: number;
   negativeScore: number;
   negativeRegularScore: number;
@@ -77,6 +78,7 @@ export class currentStateDataItem {
   notes: string;
   dataQualityGrade: string;
   negative: number;
+  negativePretty: string;
   pending: number;
   hospitalizedCurrently: number;
   hospitalizedCumulative: number;
@@ -88,17 +90,65 @@ export class currentStateDataItem {
   lastUpdateEt: Date;
   checkTimeEt: Date;
   death: number;
+  deathPretty: string;
   hospitalized: number;
   total: number;
+  totalPretty: string;
   totalTestResults: number;
   posNeg: number;
   fips: string;
   dateModified: Date;
   dateChecked: Date;
   hash: string;
+  constructor(values: Object = {}) {
+    Object.assign(this, values);   
+  }
 }
-
 export class currentStateData {
   items: currentStateDataItem[];
+  constructor(values: Object = {}) {
+    Object.assign(this, values);   
+  }
+}
+export class historicalStateDataItem {
+  date: Date;
+  state: string;
+  positive: number;
+  positivePretty: string;
+  negative: number;
+  negativePretty: string;
+  pending: number;
+  hospitalizedCurrently: number;
+  hospitalizedCumulative: number;
+  inIcuCurrently: number;
+  inIcuCumulative: number;
+  onVentilatorCurrently: number;
+  onVentilatorCumulative: number;
+  recovered: number;
+  hash: string;
+  dateChecked: Date;
+  death: number;
+  deathPretty: string;
+  hospitalized: number;
+  total: number;
+  totalPretty: string;
+  totalTestResults: number;
+  posNeg: number;
+  fips: number;
+  deathIncrease: number;
+  hospitalizedIncrease: number;
+  negativeIncrease: number;
+  positiveIncrease: number;
+  totalTestResultsIncrease: number;
+  constructor(values: Object = {}) {
+    Object.assign(this, values);   
+  }
+}
+
+export class historicalStateData {
+  items: historicalStateDataItem[];
+  constructor(values: Object = {}) {
+    Object.assign(this, values);   
+  }
 }
 
