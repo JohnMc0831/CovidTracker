@@ -45,6 +45,16 @@ export class CovidService {
     }));
   }
 
+  public getUSTable() {
+    console.log('Getting US data...');
+    return this.http.get(`${this.baseUrl}us/current.csv`, {responseType: 'text'}); //.pipe(map((csv: ArrayBuffer) => {
+  }
+
+  public getUSHistoryTable() {
+    console.log('Getting US historical data...');
+    return this.http.get(`${this.baseUrl}us/daily.csv`, {responseType: 'text'}); //.pipe(map(results => {
+  }
+
   public getStateData() {
     console.log(`Getting data for all 50+ states and territories...`);
     return this.http.get(`${this.baseUrl}states/current.json`).pipe(map(results => {
@@ -77,5 +87,15 @@ export class CovidService {
       });
       return finalItems;     
     }));
+  }
+
+  public getStateTable() {
+    console.log('Getting State data...');
+    return this.http.get(`${this.baseUrl}states/current.csv`, {responseType: 'text'}); 
+  }
+
+  public getStateHistoryTable() {
+    console.log('Getting State historical data...');
+    return this.http.get(`${this.baseUrl}states/daily.csv`, {responseType: 'text'}); 
   }
 }

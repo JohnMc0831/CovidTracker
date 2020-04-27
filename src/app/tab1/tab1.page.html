@@ -35,28 +35,28 @@
     </ion-row>
     <ion-row id='usNumbers' *ngIf='view === "US"'>
       <ion-col size="3" class='ion-text-center'>
-        <ion-item color='danger' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='danger' class='ion-text-center'>
           <ion-label>
             Deaths<br />{{usData.deathPretty}}
           </ion-label>
         </ion-item>
       </ion-col>
       <ion-col size="3" class='ion-text-center'>
-        <ion-item color='warning' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='warning' class='ion-text-center'>
           <ion-label>
             Positives<br />{{usData.positivePretty}}
           </ion-label>
         </ion-item>
       </ion-col>
       <ion-col size="3" class='ion-text-center'>
-        <ion-item color='success' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='success' class='ion-text-center'>
           <ion-label>
             Negatives<br />{{usData.negativePretty}}
           </ion-label>  
         </ion-item>
       </ion-col>
       <ion-col size='3'>
-        <ion-item color='primary' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='primary' class='ion-text-center'>
           <ion-label>
             Total<br />{{usData.totalPretty}}
           </ion-label>
@@ -65,28 +65,28 @@
     </ion-row>
     <ion-row id='stateNumbers' *ngIf='view === "State"'>
       <ion-col size="3" class='ion-text-center'>
-        <ion-item color='danger' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='danger' class='ion-text-center'>
           <ion-label>
             Deaths<br />{{stateData.deathPretty}}
           </ion-label>
         </ion-item>
       </ion-col>
       <ion-col size="3" class='ion-text-center'>
-        <ion-item color='warning' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='warning' class='ion-text-center'>
           <ion-label>
             Positives<br />{{stateData.positivePretty}}
           </ion-label>
         </ion-item>
       </ion-col>
       <ion-col size="3" class='ion-text-center'>
-        <ion-item color='success' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='success' class='ion-text-center'>
           <ion-label>
             Negatives<br />{{stateData.negativePretty}}
           </ion-label>  
         </ion-item>
       </ion-col>
       <ion-col size='3'>
-        <ion-item color='primary' (click)="viewData()" class='ion-text-center'>
+        <ion-item color='primary' class='ion-text-center'>
           <ion-label>
             Total<br />{{stateData.totalPretty}}
           </ion-label>
