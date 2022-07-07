@@ -32,7 +32,7 @@
     "core-js": "^2.5.4",
     "datatables": "^1.10.18",
     "jquery": "^3.5.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-papaparse": "^4.0.4",
     "numeral": "^2.0.6",
     "rxjs": "~6.5.1",
